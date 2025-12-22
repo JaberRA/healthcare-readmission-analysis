@@ -121,3 +121,39 @@ SELECT
   SUM(CASE WHEN gender IN ('Unknown/Invalid') THEN 1 ELSE 0 END) AS gender_missing,
   COUNT(*) AS total_rows
 FROM diabetic_data;
+
+
+/* ----------------------------------------------------------
+   8) High-risk patient profiles (combined risk factors)
+   Why: Hospitals rarely look at one factor in isolation.
+   This query identifies patient profiles with elevated
+   30-day readmission risk based on a combination of:
+   - age group
+   - medication burden
+   - average length of stay
+
+   These profiles can be used to prioritize care coordination,
+   pharmacy review, and post-discharge follow-up.
+----------------------------------------------------------- */
+
+SELECT
+  age,
+  CASE
+    WHEN num_medications BETWEEN 0 AND 5 THEN '0–5'
+    WHEN num_medications BETWEEN 6 AND 10 THEN '6–10'
+    WHEN num_medications BETWEEN 11 AND 15 THEN '11–15'
+    WHEN num_medications BETWEEN 16 AND 20 THEN '16–20'
+    ELSE '21+'
+  END AS medication_bucket,
+  AVG(time_in_hospital) AS avg_length_of_stay,
+  COUNT(*) AS encounters,
+  ROUND(
+    100.0 * SUM(CASE WHEN readmitted = '<30' THEN 1 ELSE 0 END) / COUNT(*),
+    2
+  ) AS readmit_30day_pct
+FROM diabetic_data
+GROUP BY age, medication_bucket
+HAVING COUNT(*) >= 500
+ORDER BY readmit_30day_pct DESC
+LIMIT 5;
+
