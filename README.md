@@ -1,5 +1,8 @@
 # Healthcare Readmission Risk Analysis
 
+**Tools:** SQL (MySQL), R (tidyverse, ggplot2), GitHub  
+**Domain:** Healthcare Analytics | Hospital Readmissions
+
 ## Project Overview
 Hospital readmissions within 30 days are a major quality and cost concern in healthcare systems. This project analyzes patient-level healthcare data to identify patterns and risk factors associated with hospital readmissions. The goal is to support data-driven decision-making that can help reduce avoidable readmissions and improve patient outcomes.
 
