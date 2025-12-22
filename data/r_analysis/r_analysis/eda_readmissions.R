@@ -106,3 +106,83 @@ high_risk_profiles <- diabetes %>%
   slice_head(n = 5)
 
 high_risk_profiles
+
+
+# ------------------------------------------------------------
+# Visualization Section
+# ------------------------------------------------------------
+
+# Folder where plots will be saved
+output_dir <- "dashboard/screenshots"
+
+# Create folder if it does not exist
+if (!dir.exists(output_dir)) {
+  dir.create(output_dir, recursive = TRUE)
+}
+
+library(ggplot2)
+
+# --- Readmission Rate by Age Group ---
+
+age_plot <- ggplot(age_risk, aes(x = age, y = readmit_30day_pct)) +
+  geom_col(fill = "blue") +
+  labs(
+    title = "30-Day Readmission Rate by Age Group",
+    x = "Age Group",
+    y = "Readmission Rate (%)"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+age_plot
+
+ggsave(
+  filename = file.path(output_dir, "readmission_by_age.png"),
+  plot = age_plot,
+  width = 8,
+  height = 5,
+  dpi = 300
+)
+# --- Readmission Rate by Length of Stay ---
+los_plot <- ggplot(los_risk, aes(x = time_in_hospital, y = readmit_30day_pct)) +
+  geom_line(color = "orange", linewidth = 1) +
+  geom_point(color = "black") +
+  labs(
+    title = "30-Day Readmission Rate by Length of Hospital Stay",
+    x = "Days in Hospital",
+    y = "Readmission Rate (%)"
+  ) +
+  theme_minimal()
+
+los_plot
+
+ggsave(
+  filename = file.path(output_dir, "readmission_by_length_of_stay.png"),
+  plot = los_plot,
+  width = 8,
+  height = 5,
+  dpi = 300
+)
+
+# --- Readmission Rate by Medication Burden ---
+
+med_plot <- ggplot(med_risk, aes(x = medication_bucket, y = readmit_30day_pct)) +
+  geom_col(fill = "lightgreen") +
+  labs(
+    title = "30-Day Readmission Rate by Medication Burden",
+    x = "Number of Medications",
+    y = "Readmission Rate (%)"
+  ) +
+  theme_minimal()
+
+med_plot
+
+ggsave(
+  filename = file.path(output_dir, "readmission_by_medication_burden.png"),
+  plot = med_plot,
+  width = 8,
+  height = 5,
+  dpi = 300
+)
