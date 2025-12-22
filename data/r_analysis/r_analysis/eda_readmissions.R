@@ -16,9 +16,7 @@ library(janitor)    # cleaning column names, tabyl summaries
 library(scales)     # formatting percentages and numbers
 
 # 2) Load the dataset
-# IMPORTANT: update the path to wherever you saved diabetic_data.csv locally.
-# Example on Windows: "C:/Users/YourName/Downloads/diabetic_data.csv"
-file_path <- "C:/PATH/TO/YOUR/diabetic_data.csv"
+file_path <- "C:\\Users\\jaber\\Desktop\\diabetes+130-us+hospitals+for+years+1999-2008\\diabetic_data.csv"
 
 diabetes <- readr::read_csv(file_path, show_col_types = FALSE)
 
