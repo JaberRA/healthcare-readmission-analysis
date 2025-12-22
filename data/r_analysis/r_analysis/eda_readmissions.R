@@ -8,7 +8,7 @@
 # dashboard-friendly story around readmissions.
 # ------------------------------------------------------------
 
-# 1) Install + load packages (run install.packages only once)
+# 1) Install + load packages
 # install.packages(c("tidyverse", "readr", "janitor", "scales"))
 
 library(tidyverse)  # data manipulation + plotting
